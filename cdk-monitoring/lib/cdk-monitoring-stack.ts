@@ -113,7 +113,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     bddashboard.dashboard.addWidgets(
       new cw.Row(        
         new cw.TextWidget({
-          markdown: '#LLM Matrics',
+          markdown: '# LLM Matrics',
           width: 24,
         })
       )
@@ -185,7 +185,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       new cw.SingleValueWidget({
         title: 'Server Errors (30 days)',
         metrics: [invocationsMetric, invocationsClientErrorMetric, invocationsServerErrors, invocationThrottles],
-        width: 12,
+        width: 24,
       }),
     );
   }
