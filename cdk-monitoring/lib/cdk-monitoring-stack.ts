@@ -51,7 +51,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
         title: 'Server Errors (All Models)',
-        metrics: [invocationsServerErrorsAllModelsMetric, invocationThrottlesAllModelsMetric, inputTokenCountAllModelsMetric, outputTokenCountAllModelsMetric],
+        metrics: [invocationsServerErrorsAllModelsMetric, invocationThrottlesAllModelsMetric],
         width: 12,
       }),
       // new cw.SingleValueWidget({
@@ -59,6 +59,15 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   metrics: [invocationsThrottlesAllModelsMetric],
       //   width: 12,
       // })
+    );
+
+    // Add widgets for these additional metrics to the dashboard
+    bddashboard.dashboard.addWidgets(
+      new cw.SingleValueWidget({
+        title: 'Token Counter',
+        metrics: [inputTokenCountAllModelsMetric, outputTokenCountAllModelsMetric],
+        width: 12,
+      }),
     );
     
   }
