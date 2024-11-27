@@ -2,9 +2,6 @@
 
 여기서는 AWS Bedrock에서 LLM 모델의 사용에 대한 모니터링에 대해 설명합니다. 여기서 다루는 내용은 [Deploying Amazon Bedrock Monitoring Dashboard Using AWS GenAI CDK Constructs](https://www.linkedin.com/pulse/deploying-amazon-bedrock-monitoring-dashboard-using-aws-jimin-kim-j2jpc/)의 내용을 참조합니다. 
 
-## Bedreck Metric
-
-[Monitor the health and performance of Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html)을 참조합니다.
 
 ## Dashboard 구현
 
@@ -18,6 +15,7 @@ import { Duration } from 'aws-cdk-lib';
 
 이후 아래와 같이 모니터링과 관련된 내용을 stack에 추가합니다. 상세한 코드는 [cdk-monitoring-stack.ts](./cdk-monitoring/lib/cdk-monitoring-stack.ts)을 참조합니다.
 
+전체 모델 또는 특정 모델에 대한 dashboard는 아래와 같이 구성할 수 있습니다.
 ```java
 const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct', {});
 
@@ -26,31 +24,33 @@ bddashboard.addAllModelsMonitoring({});
 
 // provides monitoring for a specific model
 bddashboard.addModelMonitoring('Anthropic Claude 3 Sonnet', 'anthropic.claude-3-sonnet-20240229-v1:0', {});
+```
 
-// Create additional Bedrock metrics
+아래와 같이 필요한 metric을 추가하고 dashboard에 추가할 수 있습니다.
+
+```java
 const invocationsServerErrorsAllModelsMetric = new cw.Metric({
   namespace: 'AWS/Bedrock',
   metricName: 'InvocationServerErrors',
   statistic: cw.Stats.SAMPLE_COUNT,
   period: Duration.hours(1),
 }); 
-// Add widgets for these additional metrics to the dashboard
 bddashboard.dashboard.addWidgets(
   new cw.SingleValueWidget({
     title: 'Server Errors (All Models)',
     metrics: [invocationsServerErrorsAllModelsMetric],
     width: 12,
-  }),
-  // new cw.SingleValueWidget({  # custom
-  //   title: 'Invocation Throttles',
-  //   metrics: [invocationsThrottlesAllModelsMetric],
-  //   width: 12,
-  // })
+  })
 );
 ```
 
-관련 Sample은 [index.ts](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-bedrock-cw-dashboard/index.ts)을 참조합니다.
+관련하여 dashboard에 대한 sample은 [index.ts](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-bedrock-cw-dashboard/index.ts)을 참조합니다.
 
+## Bedreck Metric
+
+[Monitor the health and performance of Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html)을 참조합니다.
+
+<img width="673" alt="image" src="https://github.com/user-attachments/assets/643af650-1ed9-43fb-b634-dc48e37922d1">
 
 ## CDK로 배포
 
