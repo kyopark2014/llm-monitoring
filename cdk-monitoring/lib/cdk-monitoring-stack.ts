@@ -66,7 +66,6 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.AVERAGE,
       period: Duration.days(30)
     });
-
     const modelLatencyMinMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'Invocations',
@@ -76,7 +75,6 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.MINIMUM,
       period: Duration.days(30)
     });
-
     const modelLatencyMaxMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'Invocations',
@@ -111,7 +109,7 @@ export class CdkMonitoringStack extends cdk.Stack {
 
     
 
-    // Add widgets for these additional metrics to the dashboard
+    // Invocation
     const invocationsAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationLatency',
@@ -121,8 +119,6 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.AVERAGE,
       period: Duration.days(30)
     });
-
-    // Add widgets for these additional metrics to the dashboard
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
         title: 'Invocation (30 days)',
@@ -131,15 +127,26 @@ export class CdkMonitoringStack extends cdk.Stack {
       }),
     );
 
+    // Sub Title
+    bddashboard.dashboard.addWidgets(
+      new Row(
+        new cw.TextWidget({
+          markdown: '## Token Count',
+          width: 24,
+        }),
+      )
+    );
     
-
+    // Token Count
     const inputTokenCountAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InputTokenCount',
+      // dimensionsMap: {
+      //   ModelId: modelId,
+      // },
       statistic: cw.Stats.SUM,
       period: Duration.days(30)
     });
-
     const outputTokenCountAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'OutputTokenCount',
@@ -149,9 +156,6 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,
       period: Duration.days(30),
     });
-
-    
-
     bddashboard.dashboard.addWidgets(
       new cw.Row(
         new cw.SingleValueWidget({
@@ -167,8 +171,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       )
     );
 
-    
-
+    // Input and Output Token Counts
     const modelInputTokensMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InputTokenCount',
@@ -178,7 +181,6 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,
       period: Duration.days(30),
     });
-
     const modelOutputTokensMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'OutputTokenCount',
@@ -188,10 +190,9 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,
       
     });
-
     bddashboard.dashboard.addWidgets(
-      new Row(
-        new GraphWidget({
+      new cw.Row(
+        new cw.GraphWidget({
           title: 'Input and Output Token Counts',
           left: [modelInputTokensMetric],
           right: [modelOutputTokensMetric],
