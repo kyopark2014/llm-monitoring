@@ -38,7 +38,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.AVERAGE,
       period: Duration.days(30)
     });
-    const invocationsClientErrorMetric = new cw.Metric({
+    const invocationsClientError = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'invocationsClientErrors',
       // dimensionsMap: {
@@ -158,8 +158,8 @@ export class CdkMonitoringStack extends cdk.Stack {
         
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
-        title: 'Server Errors (30 days)',
-        metrics: [invocationsMetric, invocationThrottles, invocationsServerErrors, invocationsClientErrorMetric],
+        title: 'Server Status (30 days)',
+        metrics: [invocationsMetric, invocationThrottles, invocationsServerErrors, invocationsClientError],
         width: 24,
       }),
     );
