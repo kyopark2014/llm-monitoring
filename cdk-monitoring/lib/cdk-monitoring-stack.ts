@@ -29,15 +29,6 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,  
       period: Duration.days(30),  // Duration.hours(1),
     });
-    const invocationsMetric = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InvocationLatency',
-      // dimensionsMap: {
-      //   ModelId: modelId,
-      // },
-      statistic: cw.Stats.AVERAGE,
-      period: Duration.days(30)
-    });
     const invocationsClientError = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'invocationsClientErrors',
@@ -47,7 +38,16 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.AVERAGE,
       period: Duration.days(30)
     });    
-    
+    const invocations = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'Invocations',
+      // dimensionsMap: {
+      //   ModelId: modelId,
+      // },
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30)
+    });    
+
     // Latency
     const modelLatencyAvgMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -90,6 +90,15 @@ export class CdkMonitoringStack extends cdk.Stack {
     const outputTokenCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'OutputTokenCount',
+      // dimensionsMap: {
+      //   ModelId: modelId,
+      // },
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30),
+    });
+    const outputImageCount = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'OutputImageCount',
       // dimensionsMap: {
       //   ModelId: modelId,
       // },
@@ -140,15 +149,22 @@ export class CdkMonitoringStack extends cdk.Stack {
         new cw.Column(
           new cw.Row(
             new cw.SingleValueWidget({
-              title: 'Input Token Counter (30 days)',
+              title: 'Input Token Count (30 days)',
               metrics: [inputTokenCount],
               width: 12,
             }),
           ),
           new cw.Row(          
             new cw.SingleValueWidget({
-              title: 'Output Token Counter (30 days)',
+              title: 'Output Token Count (30 days)',
               metrics: [outputTokenCount],
+              width: 12,
+            }),
+          ),
+          new cw.Row(          
+            new cw.SingleValueWidget({
+              title: 'Output Image Count (30 days)',
+              metrics: [outputImageCount],
               width: 12,
             }),
           )          
@@ -159,7 +175,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
         title: 'Server Status (30 days)',
-        metrics: [invocationsMetric, invocationThrottles, invocationsServerErrors, invocationsClientError],
+        metrics: [invocations, invocationThrottles, invocationsServerErrors, invocationsClientError],
         width: 24,
       }),
     );
