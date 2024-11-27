@@ -52,7 +52,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     });
     const invocationsClientErrorMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
-      metricName: 'invocationsClientErrorsAllModelsMetric',
+      metricName: 'invocationsClientErrors',
       // dimensionsMap: {
       //   ModelId: modelId,
       // },
@@ -155,36 +155,23 @@ export class CdkMonitoringStack extends cdk.Stack {
               title: 'Input Token Counter (30 days)',
               metrics: [inputTokenCount],
               width: 12,
+              height: 3,
             }),
             new cw.SingleValueWidget({
               title: 'Output Token Counter (30 days)',
               metrics: [outputTokenCount],
               width: 12,
+              height: 3,
             }),
           )          
         )
       ),
     );
         
-    // bddashboard.dashboard.addWidgets(
-    //   new cw.Row(                    
-    //     new cw.SingleValueWidget({
-    //       title: 'Invocations (30 days)',
-    //       metrics: [],
-    //       width: 12,
-    //     }),
-    //     new cw.SingleValueWidget({
-    //       title: 'Invocation Client Errors (30 days)',
-    //       metrics: [],
-    //       width: 12,
-    //     }),
-    //   )
-    // )
-
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
         title: 'Server Errors (30 days)',
-        metrics: [invocationsMetric, invocationsClientErrorMetric, invocationsServerErrors, invocationThrottles],
+        metrics: [invocationsMetric, invocationThrottles, invocationsServerErrors, invocationsClientErrorMetric],
         width: 24,
       }),
     );
