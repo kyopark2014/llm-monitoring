@@ -6,25 +6,7 @@
 
 [Monitor the health and performance of Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html)을 참조합니다.
 
-
-
-## CDK 준비
-
-CDK 설치후 아래와 같이 folder를 생성하고 cdk를 초기화를 수행합니다. 
-```text
-mkdir llm-monitoring
-cd llm-monitoring
-mkdir cdk-monitoring
-cd cdk-monitoring
-cdk init app --language typescript
-```
-
-cdk-monitoring에는 cdk가 설치되어 있으므로 아래와 같이 설치하려는 app의 루트로 이동합니다. 이후 아래와 같이 cdklibs를 설치합니다. 
-
-```text
-cd ..
-npm install @cdklabs/generative-ai-cdk-constructs
-```
+## Dashboard 구현
 
 이후 lib의 llm-monitoring/cdk-monitoring/lib/cdk-monitoring-stack.ts을 visual studio code에서 열고 아래와 관련된 함수를 import합니다.
 
@@ -66,6 +48,27 @@ bddashboard.dashboard.addWidgets(
   // })
 );
 ```
+
+
+
+## CDK로 배포
+
+CDK 설치후 아래와 같이 folder를 생성하고 cdk를 초기화를 수행합니다. 
+```text
+mkdir llm-monitoring
+cd llm-monitoring
+mkdir cdk-monitoring
+cd cdk-monitoring
+cdk init app --language typescript
+```
+
+cdk-monitoring에는 cdk가 설치되어 있으므로 아래와 같이 설치하려는 app의 루트로 이동합니다. 이후 아래와 같이 cdklibs를 설치합니다. 
+
+```text
+cd ..
+npm install @cdklabs/generative-ai-cdk-constructs
+```
+
 
 CDK를 위해 bootstrapping을 수행합니다.
 
