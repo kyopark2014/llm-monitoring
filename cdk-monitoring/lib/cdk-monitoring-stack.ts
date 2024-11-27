@@ -51,7 +51,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     // Latency
     const modelLatencyAvgMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
-      metricName: 'Invocations',
+      metricName: 'InvocationLatency',
       // dimensionsMap: {
       //   ModelId: modelId,
       // },
@@ -60,7 +60,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     });
     const modelLatencyMinMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
-      metricName: 'Invocations',
+      metricName: 'InvocationLatency',
       // dimensionsMap: {
       //   ModelId: modelId,
       // },
@@ -69,7 +69,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     });
     const modelLatencyMaxMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
-      metricName: 'Invocations',
+      metricName: 'InvocationLatency',
       // dimensionsMap: {
       //   ModelId: modelId,
       // },
