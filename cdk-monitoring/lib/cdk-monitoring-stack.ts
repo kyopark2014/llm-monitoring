@@ -113,7 +113,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     bddashboard.dashboard.addWidgets(
       new cw.Row(        
         new cw.TextWidget({
-          markdown: '# LLM Matrics',
+          markdown: '# LLM Metrics',
           width: 24,
         })
       )
@@ -146,7 +146,7 @@ export class CdkMonitoringStack extends cdk.Stack {
             right: [outputTokenCount],
             period: Duration.days(30),
             width: 12,
-            // height: 10,
+            height: 10,
           }),
         ),
         new Column(
@@ -155,13 +155,11 @@ export class CdkMonitoringStack extends cdk.Stack {
               title: 'Input Token Counter (30 days)',
               metrics: [inputTokenCount],
               width: 12,
-              height: 3,
             }),
             new cw.SingleValueWidget({
               title: 'Output Token Counter (30 days)',
               metrics: [outputTokenCount],
               width: 12,
-              height: 3,
             }),
           )          
         )
