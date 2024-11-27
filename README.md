@@ -88,15 +88,16 @@ cdk deploy --all
 
 이후 [CloudWatch Console](https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2)에 접속합니다.
 
-화면에서 dashboard를 선택하면, 아래와 같이 BedrockMetricsDashboard을 볼 수 있습니다.
+화면에서 dashboard를 선택하여 BedrockMetricsDashboard를 선택합니다.
 
 <img width="1223" alt="image" src="https://github.com/user-attachments/assets/90b188dd-1003-461d-a026-20c8bff0c45f">
+
 
 ## Dashboard 
 
 BedrockMetricsDashboard에서 생성된 matric을 확인할 수 있습니다.
 
-<img width="1295" alt="image" src="https://github.com/user-attachments/assets/efc18db8-1f67-4f25-bbab-fbdcac5139b4">
+<img width="935" alt="image" src="https://github.com/user-attachments/assets/e5d87ec5-278d-4f3e-8a78-de7a8ef57035">
 
 
 ## Reference 
