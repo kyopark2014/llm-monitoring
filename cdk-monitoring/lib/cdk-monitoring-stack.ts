@@ -23,7 +23,9 @@ export class CdkMonitoringStack extends cdk.Stack {
     const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct', {});
 
     // provides monitoring of all models
-    bddashboard.addAllModelsMonitoring({});
+    bddashboard.addAllModelsMonitoring({
+
+    });
 
     // provides monitoring for a specific model
     bddashboard.addModelMonitoring('Anthropic Claude 3 Sonnet', 'anthropic.claude-3-sonnet-20240229-v1:0', {});
@@ -88,11 +90,27 @@ export class CdkMonitoringStack extends cdk.Stack {
     });
 
     bddashboard.dashboard.addWidgets(
-      new Row(
+      new cw.Row(
         new cw.TextWidget({
           markdown: '# Latency',
           width: 24,
         }),
+
+        new cw.SingleValueWidget({
+          title: 'Average Latency (30 days)',
+          metrics: [modelLatencyAvgMetric],
+          width: 8,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Min Latency (30 days)',
+          metrics: [modelLatencyMinMetric],
+          width: 8,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Max Latency (30 days)',
+          metrics: [modelLatencyMaxMetric],
+          width: 8,
+        })
       )
     );
     bddashboard.dashboard.addWidgets(
