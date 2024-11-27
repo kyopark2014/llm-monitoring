@@ -22,15 +22,15 @@ export class CdkMonitoringStack extends cdk.Stack {
     const invocationsServerErrorsAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationServerErrors',
-      statistic: cw.Stats.SAMPLE_COUNT,
-      period: Duration.hours(1),
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30),
     });
     
     const invocationThrottlesAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationThrottles',
-      statistic: cw.Stats.SAMPLE_COUNT,
-      period: Duration.hours(1),
+      statistic: cw.Stats.SUM,  
+      period: Duration.days(30),  // Duration.hours(1),
     });
 
     // Add widgets for these additional metrics to the dashboard
@@ -47,11 +47,19 @@ export class CdkMonitoringStack extends cdk.Stack {
       // })
     );
 
+    const invocationsAllModelsMetric = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'Invocations',
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30)
+    });
+
+
     const inputTokenCountAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InputTokenCount',
       statistic: cw.Stats.SUM,
-      period: Duration.hours(1),
+      period: Duration.days(30)
     });
 
     const outputTokenCountAllModelsMetric = new cw.Metric({
