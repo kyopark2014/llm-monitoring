@@ -100,4 +100,5 @@ cdk deploy --all
 
 [aws-bedrock-cw-dashboard](https://github.com/awslabs/generative-ai-cdk-constructs/tree/main/src/patterns/gen-ai/aws-bedrock-cw-dashboard)
 
+[class Dashboard (construct)](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudwatch.Dashboard.html)
 
