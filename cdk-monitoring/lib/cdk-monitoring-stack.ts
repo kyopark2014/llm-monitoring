@@ -111,10 +111,12 @@ export class CdkMonitoringStack extends cdk.Stack {
         
     // Dashboard
     bddashboard.dashboard.addWidgets(
-      new cw.TextWidget({
-        markdown: '#LLM Matrics',
-        width: 24,
-      })
+      new cw.Row(        
+        new cw.TextWidget({
+          markdown: '#LLM Matrics',
+          width: 24,
+        })
+      )
     )
     bddashboard.dashboard.addWidgets(
       new cw.Row(        
