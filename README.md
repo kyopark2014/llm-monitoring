@@ -49,6 +49,7 @@ bddashboard.dashboard.addWidgets(
 );
 ```
 
+관련 Sample은 [index.ts](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-bedrock-cw-dashboard/index.ts)을 참조합니다.
 
 
 ## CDK로 배포
