@@ -113,25 +113,6 @@ export class CdkMonitoringStack extends cdk.Stack {
         })
       )
     );
-    bddashboard.dashboard.addWidgets(
-      new cw.Row(
-        new cw.SingleValueWidget({
-          title: 'Average Latency (30 days)',
-          metrics: [modelLatencyAvgMetric],
-          width: 8,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Min Latency (30 days)',
-          metrics: [modelLatencyMinMetric],
-          width: 8,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Max Latency (30 days)',
-          metrics: [modelLatencyMaxMetric],
-          width: 8,
-        })
-      )
-    );
 
 
 
@@ -155,16 +136,6 @@ export class CdkMonitoringStack extends cdk.Stack {
       }),
     );
 
-    // Sub Title
-    bddashboard.dashboard.addWidgets(
-      new Row(
-        new cw.TextWidget({
-          markdown: '# Token Count',
-          width: 24,
-        }),
-      )
-    );
-    
     // Token Count
     const inputTokenCountAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -186,6 +157,10 @@ export class CdkMonitoringStack extends cdk.Stack {
     });
     bddashboard.dashboard.addWidgets(
       new cw.Row(
+        new cw.TextWidget({
+          markdown: '# Token Count',
+          width: 24,
+        }),
         new cw.SingleValueWidget({
           title: 'Input Token Counter (30 days)',
           metrics: [inputTokenCountAllModelsMetric],
