@@ -1,20 +1,8 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
-
 import { BedrockCwDashboard } from '@cdklabs/generative-ai-cdk-constructs';
 import * as cw from 'aws-cdk-lib/aws-cloudwatch';
 import { Duration } from 'aws-cdk-lib';
-import {
-  Metric,
-  Dashboard,
-  GraphWidget,
-  SingleValueWidget,
-  Row,
-  Stats,
-  TextWidget,
-  Column,
-} from 'aws-cdk-lib/aws-cloudwatch';
 
 export class CdkMonitoringStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -139,7 +127,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     );
     bddashboard.dashboard.addWidgets(
       new cw.Row(                
-        new Column(
+        new cw.Column(
           new cw.GraphWidget({
             title: 'Input and Output Token Counts',
             left: [inputTokenCount],
@@ -149,13 +137,15 @@ export class CdkMonitoringStack extends cdk.Stack {
             height: 10,
           }),
         ),
-        new Column(
+        new cw.Column(
           new cw.Row(
             new cw.SingleValueWidget({
               title: 'Input Token Counter (30 days)',
               metrics: [inputTokenCount],
               width: 12,
             }),
+          ),
+          new cw.Row(          
             new cw.SingleValueWidget({
               title: 'Output Token Counter (30 days)',
               metrics: [outputTokenCount],
