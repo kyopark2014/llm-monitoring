@@ -1,9 +1,13 @@
 # LLM Monitoring
 
+
 <p align="left">
-    <a href="https://hits.seeyoufarm.com"><img src="https%3A%2F%2Fgithub.com%2Fkyopark2014%2Fllm-monitoring&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com"/></a>
+    <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fkyopark2014%2Fllm-monitoring&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com"/></a>
     <img alt="License" src="https://img.shields.io/badge/LICENSE-MIT-green">
 </p>
+
+
+
 
 여기서는 AWS Bedrock에 있는 LLM 모델의 모니터링 방법을 설명합니다. 주요 내용은 [Deploying Amazon Bedrock Monitoring Dashboard Using AWS GenAI CDK Constructs](https://www.linkedin.com/pulse/deploying-amazon-bedrock-monitoring-dashboard-using-aws-jimin-kim-j2jpc/)을 참고하여 만들어졌습니다.
 
