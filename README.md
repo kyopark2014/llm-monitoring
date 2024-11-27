@@ -92,9 +92,12 @@ cdk deploy --all
 
 <img width="1223" alt="image" src="https://github.com/user-attachments/assets/90b188dd-1003-461d-a026-20c8bff0c45f">
 
-이후 아래와 같이 BedrockMetricsDashboard에서 생성된 matric을 확인할 수 있습니다.
+## Dashboard 
 
-<img width="1483" alt="image" src="https://github.com/user-attachments/assets/1a4c0421-3805-4e14-9250-a0948b8484d5">
+BedrockMetricsDashboard에서 생성된 matric을 확인할 수 있습니다.
+
+<img width="1295" alt="image" src="https://github.com/user-attachments/assets/efc18db8-1f67-4f25-bbab-fbdcac5139b4">
+
 
 ## Reference 
 
