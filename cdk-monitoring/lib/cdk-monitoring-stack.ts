@@ -57,6 +57,8 @@ export class CdkMonitoringStack extends cdk.Stack {
       // })
     );
 
+
+    // Latency
     const modelLatencyAvgMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'Invocations',
@@ -85,6 +87,14 @@ export class CdkMonitoringStack extends cdk.Stack {
       period: Duration.days(30)
     });
 
+    bddashboard.dashboard.addWidgets(
+      new Row(
+        new cw.TextWidget({
+          markdown: '# Latency',
+          width: 24,
+        }),
+      )
+    );
     bddashboard.dashboard.addWidgets(
       new cw.Row(
         new cw.SingleValueWidget({
@@ -131,7 +141,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     bddashboard.dashboard.addWidgets(
       new Row(
         new cw.TextWidget({
-          markdown: '## Token Count',
+          markdown: '# Token Count',
           width: 24,
         }),
       )
