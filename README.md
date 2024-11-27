@@ -28,7 +28,7 @@ import * as cw from 'aws-cdk-lib/aws-cloudwatch';
 import { Duration } from 'aws-cdk-lib';
 ```
 
-이후 아래와 같이 모니터링과 관련된 내용을 stack에 추가합니다.
+이후 아래와 같이 모니터링과 관련된 내용을 stack에 추가합니다. 상세한 코드는 [cdk-monitoring-stack.ts](./cdk-monitoring/lib/cdk-monitoring-stack.ts)을 참조합니다.
 
 ```java
 const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct', {});
