@@ -23,43 +23,43 @@ export class CdkMonitoringStack extends cdk.Stack {
     const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct', {});
 
     // provides monitoring of all models
-    bddashboard.addAllModelsMonitoring({
-
-    });
+    // bddashboard.addAllModelsMonitoring({});
 
     // provides monitoring for a specific model
-    bddashboard.addModelMonitoring('Anthropic Claude 3 Sonnet', 'anthropic.claude-3-sonnet-20240229-v1:0', {});
+    //bddashboard.addModelMonitoring('Anthropic Claude 3 Sonnet', 'anthropic.claude-3-sonnet-20240229-v1:0', {});
 
-    // Create additional Bedrock metrics
-    const invocationsServerErrorsAllModelsMetric = new cw.Metric({
+    // Invocation
+    const invocationsServerErrors = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationServerErrors',
       statistic: cw.Stats.SUM,
       period: Duration.days(30),
-    });
-    
-    const invocationThrottlesAllModelsMetric = new cw.Metric({
+    });    
+    const invocationThrottles = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationThrottles',
       statistic: cw.Stats.SUM,  
       period: Duration.days(30),  // Duration.hours(1),
     });
-
-    // Add widgets for these additional metrics to the dashboard
-    bddashboard.dashboard.addWidgets(
-      new cw.SingleValueWidget({
-        title: 'Server Errors (30 days)',
-        metrics: [invocationsServerErrorsAllModelsMetric, invocationThrottlesAllModelsMetric],
-        width: 12,
-      }),
-      // new cw.SingleValueWidget({
-      //   title: 'Invocation Throttles',
-      //   metrics: [invocationsThrottlesAllModelsMetric],
-      //   width: 12,
-      // })
-    );
-
-
+    const invocationsMetric = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationLatency',
+      // dimensionsMap: {
+      //   ModelId: modelId,
+      // },
+      statistic: cw.Stats.AVERAGE,
+      period: Duration.days(30)
+    });
+    const invocationsClientErrorMetric = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'invocationsClientErrorsAllModelsMetric',
+      // dimensionsMap: {
+      //   ModelId: modelId,
+      // },
+      statistic: cw.Stats.AVERAGE,
+      period: Duration.days(30)
+    });    
+    
     // Latency
     const modelLatencyAvgMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -88,14 +88,9 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.MAXIMUM,
       period: Duration.days(30)
     });
-
     
-
-
-
-  
     // Token Count
-    const inputTokenCountAllModelsMetric = new cw.Metric({
+    const inputTokenCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InputTokenCount',
       // dimensionsMap: {
@@ -104,7 +99,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,
       period: Duration.days(30)
     });
-    const outputTokenCountAllModelsMetric = new cw.Metric({
+    const outputTokenCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'OutputTokenCount',
       // dimensionsMap: {
@@ -113,68 +108,16 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,
       period: Duration.days(30),
     });
+        
+    // Dashboard
     bddashboard.dashboard.addWidgets(
-      new cw.Row(
-        new cw.TextWidget({
-          markdown: '# Token Count',
-          width: 24,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Input Token Counter (30 days)',
-          metrics: [inputTokenCountAllModelsMetric],
-          width: 8,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Output Token Counter (30 days)',
-          metrics: [outputTokenCountAllModelsMetric],
-          width: 8,
-        }),
-      )
-    );
-
-    // Input and Output Token Counts
-    const modelInputTokensMetric = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InputTokenCount',
-      // dimensionsMap: {
-      //   ModelId: modelId,
-      // },
-      statistic: cw.Stats.SUM,
-      period: Duration.days(30),
-    });
-    const modelOutputTokensMetric = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'OutputTokenCount',
-      // dimensionsMap: {
-      //   ModelId: modelId,
-      // },
-      statistic: cw.Stats.SUM,      
-    });
-    const invocationsMetric = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InvocationLatency',
-      // dimensionsMap: {
-      //   ModelId: modelId,
-      // },
-      statistic: cw.Stats.AVERAGE,
-      period: Duration.days(30)
-    });
-    const invocationsClientErrorMetric = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'invocationsClientErrorsAllModelsMetric',
-      // dimensionsMap: {
-      //   ModelId: modelId,
-      // },
-      statistic: cw.Stats.AVERAGE,
-      period: Duration.days(30)
-    });    
-
+      new cw.TextWidget({
+        markdown: '#LLM Matrics',
+        width: 24,
+      })
+    )
     bddashboard.dashboard.addWidgets(
-      new cw.Row(
-        new cw.TextWidget({
-          markdown: '# Matrics',
-          width: 24,
-        }),
+      new cw.Row(        
         new cw.SingleValueWidget({
           title: 'Average Latency (30 days)',
           metrics: [modelLatencyAvgMetric],
@@ -197,8 +140,8 @@ export class CdkMonitoringStack extends cdk.Stack {
         new Column(
           new cw.GraphWidget({
             title: 'Input and Output Token Counts',
-            left: [modelInputTokensMetric],
-            right: [modelOutputTokensMetric],
+            left: [inputTokenCount],
+            right: [outputTokenCount],
             period: Duration.days(30),
             width: 12,
             // height: 10,
@@ -218,7 +161,30 @@ export class CdkMonitoringStack extends cdk.Stack {
         )
       ),
     );
-
-    
+    bddashboard.dashboard.addWidgets(
+      new cw.SingleValueWidget({
+        title: 'Server Errors (30 days)',
+        metrics: [invocationsServerErrors, invocationThrottles],
+        width: 12,
+      }),
+    );    
+    bddashboard.dashboard.addWidgets(
+      new cw.Row(
+        new cw.TextWidget({
+          markdown: '# Token Count',
+          width: 24,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Input Token Counter (30 days)',
+          metrics: [inputTokenCount],
+          width: 8,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Output Token Counter (30 days)',
+          metrics: [outputTokenCount],
+          width: 8,
+        }),
+      )
+    );
   }
 }
