@@ -54,6 +54,15 @@ export class CdkMonitoringStack extends cdk.Stack {
       period: Duration.days(30)
     });
 
+    // Add widgets for these additional metrics to the dashboard
+    bddashboard.dashboard.addWidgets(
+      new cw.SingleValueWidget({
+        title: 'Invocation (30days)',
+        metrics: [invocationsAllModelsMetric],
+        width: 12,
+      }),
+    );
+
 
     const inputTokenCountAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -66,13 +75,13 @@ export class CdkMonitoringStack extends cdk.Stack {
       namespace: 'AWS/Bedrock',
       metricName: 'OutputTokenCount',
       statistic: cw.Stats.SUM,
-      period: Duration.hours(1),
+      period: Duration.days(30),
     });
 
     // Add widgets for these additional metrics to the dashboard
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
-        title: 'Token Counter',
+        title: 'Token Counter (30days)',
         metrics: [inputTokenCountAllModelsMetric, outputTokenCountAllModelsMetric],
         width: 12,
       }),
