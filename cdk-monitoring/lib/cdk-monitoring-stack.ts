@@ -24,12 +24,34 @@ export class CdkMonitoringStack extends cdk.Stack {
       metricName: 'InvocationServerErrors',
       statistic: cw.Stats.SAMPLE_COUNT,
       period: Duration.hours(1),
-    }); 
+    });
+    
+    const invocationThrottlesAllModelsMetric = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationThrottles',
+      statistic: cw.Stats.SAMPLE_COUNT,
+      period: Duration.hours(1),
+    });
+
+    const inputTokenCountAllModelsMetric = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InputTokenCount',
+      statistic: cw.Stats.SAMPLE_COUNT,
+      period: Duration.hours(1),
+    });
+
+    const outputTokenCountAllModelsMetric = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'OutputTokenCount',
+      statistic: cw.Stats.SAMPLE_COUNT,
+      period: Duration.hours(1),
+    });
+
     // Add widgets for these additional metrics to the dashboard
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
         title: 'Server Errors (All Models)',
-        metrics: [invocationsServerErrorsAllModelsMetric],
+        metrics: [invocationsServerErrorsAllModelsMetric, invocationThrottlesAllModelsMetric, inputTokenCountAllModelsMetric, outputTokenCountAllModelsMetric],
         width: 12,
       }),
       // new cw.SingleValueWidget({
