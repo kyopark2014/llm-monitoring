@@ -193,7 +193,13 @@ export class CdkMonitoringStack extends cdk.Stack {
     });    
     bddashboard.dashboard.addWidgets(
       new cw.Row(
+        
+        
         new Column(
+          new cw.TextWidget({
+            markdown: '## Tokens',
+            width: 24,
+          }),
           new cw.GraphWidget({
             title: 'Input and Output Token Counts',
             left: [modelInputTokensMetric],
@@ -204,6 +210,10 @@ export class CdkMonitoringStack extends cdk.Stack {
           }),
         ),
         new Column(
+          new cw.TextWidget({
+            markdown: '## Invocation',
+            width: 24,
+          }),
           new cw.SingleValueWidget({
             title: 'Invocations (30 days)',
             metrics: [invocationsMetric],
