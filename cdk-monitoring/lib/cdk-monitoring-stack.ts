@@ -89,30 +89,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       period: Duration.days(30)
     });
 
-    bddashboard.dashboard.addWidgets(
-      new cw.Row(
-        new cw.TextWidget({
-          markdown: '# Latency',
-          width: 24,
-        }),
-
-        new cw.SingleValueWidget({
-          title: 'Average Latency (30 days)',
-          metrics: [modelLatencyAvgMetric],
-          width: 8,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Min Latency (30 days)',
-          metrics: [modelLatencyMinMetric],
-          width: 8,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Max Latency (30 days)',
-          metrics: [modelLatencyMaxMetric],
-          width: 8,
-        })
-      )
-    );
+    
 
 
 
@@ -191,29 +168,43 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.AVERAGE,
       period: Duration.days(30)
     });    
+
     bddashboard.dashboard.addWidgets(
       new cw.Row(
-        
-        
+        new cw.TextWidget({
+          markdown: '# Matrics',
+          width: 24,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Average Latency (30 days)',
+          metrics: [modelLatencyAvgMetric],
+          width: 8,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Min Latency (30 days)',
+          metrics: [modelLatencyMinMetric],
+          width: 8,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Max Latency (30 days)',
+          metrics: [modelLatencyMaxMetric],
+          width: 8,
+        })
+      )
+    );
+    bddashboard.dashboard.addWidgets(
+      new cw.Row(                
         new Column(
-          new cw.TextWidget({
-            markdown: '## Tokens',
-            width: 24,
-          }),
           new cw.GraphWidget({
             title: 'Input and Output Token Counts',
             left: [modelInputTokensMetric],
             right: [modelOutputTokensMetric],
             period: Duration.days(30),
             width: 12,
-            height: 10,
+            // height: 10,
           }),
         ),
         new Column(
-          new cw.TextWidget({
-            markdown: '## Invocation',
-            width: 24,
-          }),
           new cw.SingleValueWidget({
             title: 'Invocations (30 days)',
             metrics: [invocationsMetric],
