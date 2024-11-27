@@ -116,26 +116,7 @@ export class CdkMonitoringStack extends cdk.Stack {
 
 
 
-    
-
-    // Invocation
-    const invocationsAllModelsMetric = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InvocationLatency',
-      // dimensionsMap: {
-      //   ModelId: modelId,
-      // },
-      statistic: cw.Stats.AVERAGE,
-      period: Duration.days(30)
-    });
-    bddashboard.dashboard.addWidgets(
-      new cw.SingleValueWidget({
-        title: 'Invocation (30 days)',
-        metrics: [invocationsAllModelsMetric],
-        width: 12,
-      }),
-    );
-
+  
     // Token Count
     const inputTokenCountAllModelsMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -190,19 +171,50 @@ export class CdkMonitoringStack extends cdk.Stack {
       // dimensionsMap: {
       //   ModelId: modelId,
       // },
-      statistic: cw.Stats.SUM,
-      
+      statistic: cw.Stats.SUM,      
     });
+    const invocationsMetric = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationLatency',
+      // dimensionsMap: {
+      //   ModelId: modelId,
+      // },
+      statistic: cw.Stats.AVERAGE,
+      period: Duration.days(30)
+    });
+    const invocationsClientErrorMetric = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'invocationsClientErrorsAllModelsMetric',
+      // dimensionsMap: {
+      //   ModelId: modelId,
+      // },
+      statistic: cw.Stats.AVERAGE,
+      period: Duration.days(30)
+    });    
     bddashboard.dashboard.addWidgets(
       new cw.Row(
-        new cw.GraphWidget({
-          title: 'Input and Output Token Counts',
-          left: [modelInputTokensMetric],
-          right: [modelOutputTokensMetric],
-          period: Duration.days(30),
-          width: 12,
-          height: 10,
-        }),
+        new Column(
+          new cw.GraphWidget({
+            title: 'Input and Output Token Counts',
+            left: [modelInputTokensMetric],
+            right: [modelOutputTokensMetric],
+            period: Duration.days(30),
+            width: 12,
+            height: 10,
+          }),
+        ),
+        new Column(
+          new cw.SingleValueWidget({
+            title: 'Invocations (30 days)',
+            metrics: [invocationsMetric],
+            width: 12,
+          }),
+          new cw.SingleValueWidget({
+            title: 'Invocation Client Errors (30 days)',
+            metrics: [invocationsClientErrorMetric],
+            width: 12,
+          }),
+        )
       ),
     );
 
