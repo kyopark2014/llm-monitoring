@@ -134,7 +134,7 @@ export class CdkMonitoringStack extends cdk.Stack {
             right: [outputTokenCount],
             period: Duration.days(30),
             width: 12,
-            height: 10,
+            // height: 10,
           }),
         ),
         new cw.Column(
