@@ -154,37 +154,37 @@ export class CdkMonitoringStack extends cdk.Stack {
             new cw.SingleValueWidget({
               title: 'Input Token Counter (30 days)',
               metrics: [inputTokenCount],
-              width: 8,
+              width: 12,
             }),
             new cw.SingleValueWidget({
               title: 'Output Token Counter (30 days)',
               metrics: [outputTokenCount],
-              width: 8,
+              width: 12,
             }),
           )          
         )
       ),
     );
         
-    bddashboard.dashboard.addWidgets(
-      new cw.Row(                    
-        new cw.SingleValueWidget({
-          title: 'Invocations (30 days)',
-          metrics: [invocationsMetric],
-          width: 12,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Invocation Client Errors (30 days)',
-          metrics: [invocationsClientErrorMetric],
-          width: 12,
-        }),
-      )
-    )
+    // bddashboard.dashboard.addWidgets(
+    //   new cw.Row(                    
+    //     new cw.SingleValueWidget({
+    //       title: 'Invocations (30 days)',
+    //       metrics: [],
+    //       width: 12,
+    //     }),
+    //     new cw.SingleValueWidget({
+    //       title: 'Invocation Client Errors (30 days)',
+    //       metrics: [],
+    //       width: 12,
+    //     }),
+    //   )
+    // )
 
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
         title: 'Server Errors (30 days)',
-        metrics: [invocationsServerErrors, invocationThrottles],
+        metrics: [invocationsMetric, invocationsClientErrorMetric, invocationsServerErrors, invocationThrottles],
         width: 12,
       }),
     );
