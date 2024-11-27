@@ -86,3 +86,6 @@ cdk deploy --all
 
 <img width="1483" alt="image" src="https://github.com/user-attachments/assets/1a4c0421-3805-4e14-9250-a0948b8484d5">
 
+## Reference 
+
+[aws-bedrock-cw-dashboard](https://github.com/awslabs/generative-ai-cdk-constructs/tree/main/src/patterns/gen-ai/aws-bedrock-cw-dashboard)
