@@ -60,3 +60,29 @@ bddashboard.dashboard.addWidgets(
   // })
 );
 ```
+
+CDK를 위해 bootstrapping을 수행합니다.
+
+"account-id"는 상기 명령어로 확인한 12자리의 Account ID입니다. bootstrap 1회만 수행하면 되므로, 기존에 cdk를 사용하고 있었다면 bootstrap은 건너뛰어도 됩니다.
+
+```java
+cdk bootstrap aws://account-id/us-west-2
+```
+
+이제 인프라를 설치합니다.
+
+```java
+cd cdk-monitoring
+cdk deploy --all
+```
+
+이후 [CloudWatch Console](https://us-west-2.console.aws.amazon.com/cloudwatch/home?region=us-west-2)에 접속합니다.
+
+화면에서 dashboard를 선택하면, 아래와 같이 BedrockMetricsDashboard을 볼 수 있습니다.
+
+<img width="1223" alt="image" src="https://github.com/user-attachments/assets/90b188dd-1003-461d-a026-20c8bff0c45f">
+
+이후 아래와 같이 BedrockMetricsDashboard에서 생성된 matric을 확인할 수 있습니다.
+
+<img width="1483" alt="image" src="https://github.com/user-attachments/assets/1a4c0421-3805-4e14-9250-a0948b8484d5">
+
