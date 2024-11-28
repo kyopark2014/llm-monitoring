@@ -375,7 +375,7 @@ export class modelDashboard extends cdk.Stack {
     );
 
     // Create a cost graph widget
-    bddashboard.dashboard.dashboard.addWidgets(
+    bddashboard.dashboard.addWidgets(
       new cw.Row(
         new cw.GraphWidget({
           title: `Token Cost (USD)`,
