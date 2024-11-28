@@ -184,7 +184,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     // Invocation
     const modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
     const title = "# LLM Metrics (Sonnet)"
-    const modelName = "Sonnet3.0"
+    const modelName = "Sonnet3-0"
     new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId)
   }
 }
