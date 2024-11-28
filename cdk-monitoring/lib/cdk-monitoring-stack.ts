@@ -208,6 +208,16 @@ export class CdkMonitoringStack extends cdk.Stack {
     modelName = "Haiku3-5"
     title = "# LLM Metrics (Haiku 3.5)"
     new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
+
+    modelId = "amazon.titan-embed-text-v2:0"
+    modelName = "Titan-v2"
+    title = "# LLM Metrics (Titan v1)"
+    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
+
+    modelId = "amazon.titan-embed-text-v1"
+    modelName = "titan-v1"
+    title = "# LLM Metrics (Titan v2)"
+    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
   }
 }
 
