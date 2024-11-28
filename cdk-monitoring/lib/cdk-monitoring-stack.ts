@@ -379,6 +379,7 @@ export class modelDashboard extends cdk.Stack {
       new cw.Row(
         new cw.GraphWidget({
           title: `Token Cost (USD)`,
+          period: Duration.days(30),
           left: [
             new cw.MathExpression({
               expression: `inputTokens / 1000 * ${inputTokenPrice}`,
