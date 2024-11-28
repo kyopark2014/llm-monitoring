@@ -179,5 +179,177 @@ export class CdkMonitoringStack extends cdk.Stack {
         width: 24,
       }),
     );
+
+    ///////////////// Sonnet ////////////////
+    // Invocation
+    const modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
+    const invocationsServerErrorsforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationServerErrors',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30),
+    });    
+    const invocationThrottlesforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationThrottles',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.SUM,  
+      period: Duration.days(30),  // Duration.hours(1),
+    });
+    const invocationsClientErrorforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'invocationsClientErrors',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.AVERAGE,
+      period: Duration.days(30)
+    });    
+    const invocationsforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'Invocations',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30)
+    });    
+
+    // Latency
+    const modelLatencyAvgMetricforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationLatency',
+      // dimensionsMap: {
+      //   ModelId: modelId,
+      // },
+      statistic: cw.Stats.AVERAGE,
+      period: Duration.days(30)
+    });
+    const modelLatencyMinMetricforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationLatency',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.MINIMUM,
+      period: Duration.days(30)
+    });
+    const modelLatencyMaxMetricforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationLatency',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.MAXIMUM,
+      period: Duration.days(30)
+    });
+    
+    // Token Count
+    const inputTokenCountforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InputTokenCount',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30)
+    });
+    const outputTokenCountforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'OutputTokenCount',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30),
+    });
+    const outputImageCountforSonnet = new cw.Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'OutputImageCount',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: cw.Stats.SUM,
+      period: Duration.days(30),
+    });
+        
+    // Dashboard for Sonnet
+    bddashboard.dashboard.addWidgets(
+      new cw.Row(        
+        new cw.TextWidget({
+          markdown: '# LLM Metrics (Sonnet)',
+          width: 24,
+        })
+      )
+    )
+    bddashboard.dashboard.addWidgets(
+      new cw.Row(        
+        new cw.SingleValueWidget({
+          title: 'Average Latency (30 days)',
+          metrics: [modelLatencyAvgMetricforSonnet],
+          width: 8,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Min Latency (30 days)',
+          metrics: [modelLatencyMinMetricforSonnet],
+          width: 8,
+        }),
+        new cw.SingleValueWidget({
+          title: 'Max Latency (30 days)',
+          metrics: [modelLatencyMaxMetricforSonnet],
+          width: 8,
+        })
+      )
+    );
+    bddashboard.dashboard.addWidgets(
+      new cw.Row(                
+        new cw.Column(
+          new cw.GraphWidget({
+            title: 'Input and Output Token Counts',
+            left: [inputTokenCountforSonnet],
+            right: [outputTokenCountforSonnet],
+            period: Duration.days(30),
+            width: 12,
+            height: 9,
+          }),
+        ),
+        new cw.Column(
+          new cw.Row(
+            new cw.SingleValueWidget({
+              title: 'Input Token Count (30 days)',
+              metrics: [inputTokenCountforSonnet],
+              width: 12,
+            }),
+          ),
+          new cw.Row(          
+            new cw.SingleValueWidget({
+              title: 'Output Token Count (30 days)',
+              metrics: [outputTokenCountforSonnet],
+              width: 12,
+            }),
+          ),
+          new cw.Row(          
+            new cw.SingleValueWidget({
+              title: 'Output Image Count (30 days)',
+              metrics: [outputImageCountforSonnet],
+              width: 12,
+            }),
+          )          
+        )
+      ),
+    );
+        
+    bddashboard.dashboard.addWidgets(
+      new cw.SingleValueWidget({
+        title: 'Server Status (30 days)',
+        metrics: [invocationsforSonnet, invocationThrottlesforSonnet, invocationsServerErrorsforSonnet, invocationsClientErrorforSonnet],
+        width: 24,
+      }),
+    );
   }
 }
