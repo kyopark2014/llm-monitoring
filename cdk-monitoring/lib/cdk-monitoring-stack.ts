@@ -187,12 +187,12 @@ export class CdkMonitoringStack extends cdk.Stack {
     new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId)
 
     modelId = "aanthropic.claude-3-5-sonnet-20240620-v1:0"
-    modelName = "Sonnet3-5 v1"
+    modelName = "Sonnet3-5-v1"
     title = "# LLM Metrics (Sonnet 3.5 v1)"
     new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId)
 
     modelId = "anthropic.claude-3-5-sonnet-20241022-v2:0"
-    modelName = "Sonnet3-5 v2"
+    modelName = "Sonnet3-5-v2"
     title = "# LLM Metrics (Sonnet 3.5 v2)"
     new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId)
   }
