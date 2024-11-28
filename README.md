@@ -115,3 +115,4 @@ BedrockMetricsDashboard에서 생성된 matric을 확인할 수 있습니다.
 
 [class Dashboard (construct)](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudwatch.Dashboard.html)
 
+[From Metrics to Dollars: Leveraging GenAI CDK Constructs for Cost Observability](https://www.linkedin.com/pulse/from-metrics-dollars-leveraging-genai-cdk-constructs-cost-jimin-kim-2xwpc/)
