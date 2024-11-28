@@ -183,7 +183,16 @@ export class CdkMonitoringStack extends cdk.Stack {
     ///////////////// Sonnet ////////////////
     // Invocation
     const modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
-    const invocationsServerErrorsforSonnet = new cw.Metric({
+    const title = "# LLM Metrics (Sonnet)"
+    new modelDashboard(scope, `deployment-of-${modelId}`, bddashboard, title, modelId)
+  }
+}
+
+export class modelDashboard extends cdk.Stack {
+  constructor(scope: Construct, id: string, bddashboard: any, title: string, modelId: string, props?: cdk.StackProps) {    
+    super(scope, id, props);
+    
+    const invocationsServerErrors = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationServerErrors',
       dimensionsMap: {
@@ -192,7 +201,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,
       period: Duration.days(30),
     });    
-    const invocationThrottlesforSonnet = new cw.Metric({
+    const invocationThrottles = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationThrottles',
       dimensionsMap: {
@@ -201,7 +210,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,  
       period: Duration.days(30),  // Duration.hours(1),
     });
-    const invocationsClientErrorforSonnet = new cw.Metric({
+    const invocationsClientError = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'invocationsClientErrors',
       dimensionsMap: {
@@ -210,7 +219,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.AVERAGE,
       period: Duration.days(30)
     });    
-    const invocationsforSonnet = new cw.Metric({
+    const invocations = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'Invocations',
       dimensionsMap: {
@@ -221,7 +230,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     });    
 
     // Latency
-    const modelLatencyAvgMetricforSonnet = new cw.Metric({
+    const modelLatencyAvgMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationLatency',
       // dimensionsMap: {
@@ -230,7 +239,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.AVERAGE,
       period: Duration.days(30)
     });
-    const modelLatencyMinMetricforSonnet = new cw.Metric({
+    const modelLatencyMinMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationLatency',
       dimensionsMap: {
@@ -239,7 +248,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.MINIMUM,
       period: Duration.days(30)
     });
-    const modelLatencyMaxMetricforSonnet = new cw.Metric({
+    const modelLatencyMaxMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationLatency',
       dimensionsMap: {
@@ -250,7 +259,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     });
     
     // Token Count
-    const inputTokenCountforSonnet = new cw.Metric({
+    const inputTokenCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InputTokenCount',
       dimensionsMap: {
@@ -259,7 +268,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,
       period: Duration.days(30)
     });
-    const outputTokenCountforSonnet = new cw.Metric({
+    const outputTokenCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'OutputTokenCount',
       dimensionsMap: {
@@ -268,7 +277,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       statistic: cw.Stats.SUM,
       period: Duration.days(30),
     });
-    const outputImageCountforSonnet = new cw.Metric({
+    const outputImageCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'OutputImageCount',
       dimensionsMap: {
@@ -278,11 +287,11 @@ export class CdkMonitoringStack extends cdk.Stack {
       period: Duration.days(30),
     });
         
-    // Dashboard for Sonnet
+    // Dashboard 
     bddashboard.dashboard.addWidgets(
       new cw.Row(        
         new cw.TextWidget({
-          markdown: '# LLM Metrics (Sonnet)',
+          markdown: title,
           width: 24,
         })
       )
@@ -291,17 +300,17 @@ export class CdkMonitoringStack extends cdk.Stack {
       new cw.Row(        
         new cw.SingleValueWidget({
           title: 'Average Latency (30 days)',
-          metrics: [modelLatencyAvgMetricforSonnet],
+          metrics: [modelLatencyAvgMetric],
           width: 8,
         }),
         new cw.SingleValueWidget({
           title: 'Min Latency (30 days)',
-          metrics: [modelLatencyMinMetricforSonnet],
+          metrics: [modelLatencyMinMetric],
           width: 8,
         }),
         new cw.SingleValueWidget({
           title: 'Max Latency (30 days)',
-          metrics: [modelLatencyMaxMetricforSonnet],
+          metrics: [modelLatencyMaxMetric],
           width: 8,
         })
       )
@@ -311,8 +320,8 @@ export class CdkMonitoringStack extends cdk.Stack {
         new cw.Column(
           new cw.GraphWidget({
             title: 'Input and Output Token Counts',
-            left: [inputTokenCountforSonnet],
-            right: [outputTokenCountforSonnet],
+            left: [inputTokenCount],
+            right: [outputTokenCount],
             period: Duration.days(30),
             width: 12,
             height: 9,
@@ -322,21 +331,21 @@ export class CdkMonitoringStack extends cdk.Stack {
           new cw.Row(
             new cw.SingleValueWidget({
               title: 'Input Token Count (30 days)',
-              metrics: [inputTokenCountforSonnet],
+              metrics: [inputTokenCount],
               width: 12,
             }),
           ),
           new cw.Row(          
             new cw.SingleValueWidget({
               title: 'Output Token Count (30 days)',
-              metrics: [outputTokenCountforSonnet],
+              metrics: [outputTokenCount],
               width: 12,
             }),
           ),
           new cw.Row(          
             new cw.SingleValueWidget({
               title: 'Output Image Count (30 days)',
-              metrics: [outputImageCountforSonnet],
+              metrics: [outputImageCount],
               width: 12,
             }),
           )          
@@ -347,9 +356,9 @@ export class CdkMonitoringStack extends cdk.Stack {
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
         title: 'Server Status (30 days)',
-        metrics: [invocationsforSonnet, invocationThrottlesforSonnet, invocationsServerErrorsforSonnet, invocationsClientErrorforSonnet],
+        metrics: [invocations, invocationThrottles, invocationsServerErrors, invocationsClientError],
         width: 24,
       }),
     );
   }
-}
+} 
