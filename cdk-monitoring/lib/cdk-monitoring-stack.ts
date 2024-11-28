@@ -184,8 +184,8 @@ export class CdkMonitoringStack extends cdk.Stack {
     let modelId = "anthropic.claude-3-sonnet-20240229-v1:0";
     let modelName = "Sonnet3-0";
     let title = "# LLM Metrics (Sonnet 3)";
-    let inputTokenPrice = 1.2;
-    let outputTokenPrice = 1.5;
+    let inputTokenPrice = 0.003;
+    let outputTokenPrice = 0.015;
 
     new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
 
@@ -197,6 +197,16 @@ export class CdkMonitoringStack extends cdk.Stack {
     modelId = "anthropic.claude-3-5-sonnet-20241022-v2:0"
     modelName = "Sonnet3-5-v2"
     title = "# LLM Metrics (Sonnet 3.5 v2)"
+    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
+
+    modelId = "anthropic.claude-3-haiku-20240307-v1:0"
+    modelName = "Haiku3"
+    title = "# LLM Metrics (Haiku 3)"
+    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
+
+    modelId = "anthropic.claude-3-5-haiku-20241022-v1:0"
+    modelName = "Haiku3-5"
+    title = "# LLM Metrics (Haiku 3.5)"
     new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
   }
 }
