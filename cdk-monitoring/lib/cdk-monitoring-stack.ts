@@ -181,25 +181,28 @@ export class CdkMonitoringStack extends cdk.Stack {
     );
 
     ///////////////// Sonnet 3.0 ////////////////
-    let modelId = "anthropic.claude-3-sonnet-20240229-v1:0"
-    let modelName = "Sonnet3-0"
-    let title = "# LLM Metrics (Sonnet 3)"
-    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId)
+    let modelId = "anthropic.claude-3-sonnet-20240229-v1:0";
+    let modelName = "Sonnet3-0";
+    let title = "# LLM Metrics (Sonnet 3)";
+    let inputTokenPrice = 1.2;
+    let outputTokenPrice = 1.5;
+
+    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
 
     modelId = "aanthropic.claude-3-5-sonnet-20240620-v1:0"
     modelName = "Sonnet3-5-v1"
     title = "# LLM Metrics (Sonnet 3.5 v1)"
-    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId)
+    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
 
     modelId = "anthropic.claude-3-5-sonnet-20241022-v2:0"
     modelName = "Sonnet3-5-v2"
     title = "# LLM Metrics (Sonnet 3.5 v2)"
-    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId)
+    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
   }
 }
 
 export class modelDashboard extends cdk.Stack {
-  constructor(scope: Construct, id: string, bddashboard: any, title: string, modelId: string, props?: cdk.StackProps) {    
+  constructor(scope: Construct, id: string, bddashboard: any, title: string, modelId: string, inputTokenPrice: number, outputTokenPrice: number, props?: cdk.StackProps) {    
     super(scope, id, props);
     
     const invocationsServerErrors = new cw.Metric({
@@ -243,9 +246,9 @@ export class modelDashboard extends cdk.Stack {
     const modelLatencyAvgMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationLatency',
-      // dimensionsMap: {
-      //   ModelId: modelId,
-      // },
+      dimensionsMap: {
+        ModelId: modelId,
+      },
       statistic: cw.Stats.AVERAGE,
       period: Duration.days(30)
     });
@@ -369,6 +372,50 @@ export class modelDashboard extends cdk.Stack {
         metrics: [invocations, invocationThrottles, invocationsServerErrors, invocationsClientError],
         width: 24,
       }),
+    );
+
+    // Create a cost graph widget
+    bddashboard.dashboard.dashboard.addWidgets(
+      new cw.Row(
+        new cw.GraphWidget({
+          title: `Token Cost (USD)`,
+          left: [
+            new cw.MathExpression({
+              expression: `inputTokens / 1000 * ${inputTokenPrice}`,
+              usingMetrics: {
+                inputTokens: inputTokenCount,
+              },
+              label: "Input Token Cost",
+            }),
+            new cw.MathExpression({
+              expression: `outputTokens / 1000 * ${outputTokenPrice}`,
+              usingMetrics: {
+                outputTokens: outputTokenCount,
+              },
+              label: "Output Token Cost",
+            }),
+          ],
+          leftYAxis: {
+            label: "Input and Output",
+            showUnits: false,
+          },
+          right: [
+            new cw.MathExpression({
+              expression: `inputTokens / 1000 * ${inputTokenPrice} + outputTokens / 1000 * ${outputTokenPrice}`,
+              usingMetrics: {
+                inputTokens: inputTokenCount,
+                outputTokens: outputTokenCount,
+              },
+              label: "Total Cost",
+            }),
+          ],
+          rightYAxis: {
+            label: "Total",
+            showUnits: false,
+          },
+          width: 12,
+        }),
+      ),
     );
   }
 } 
