@@ -11,6 +11,8 @@
 
 여기서는 AWS Bedrock에 있는 LLM 모델의 모니터링 방법을 설명합니다. 주요 내용은 [Deploying Amazon Bedrock Monitoring Dashboard Using AWS GenAI CDK Constructs](https://www.linkedin.com/pulse/deploying-amazon-bedrock-monitoring-dashboard-using-aws-jimin-kim-j2jpc/)을 참고하여 만들어졌습니다.
 
+![image](https://github.com/user-attachments/assets/7cf89841-c203-46e9-8e72-1a7b53c33aab)
+
 
 ## Dashboard 구현
 
@@ -105,8 +107,6 @@ cdk deploy --all
 ## Dashboard 
 
 BedrockMetricsDashboard에서 생성된 matric을 확인할 수 있습니다.
-
-<img width="935" alt="image" src="https://github.com/user-attachments/assets/e5d87ec5-278d-4f3e-8a78-de7a8ef57035">
 
 
 ## Reference 
