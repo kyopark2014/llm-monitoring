@@ -236,16 +236,19 @@ export class CdkMonitoringStack extends cdk.Stack {
         new cw.SingleValueWidget({
           title: 'Average Latency (1 hour)',
           metrics: [modelLatencyAvgMetric1H],
+          period: Duration.hours(1),
           width: 8,
         }),
         new cw.SingleValueWidget({
           title: 'Min Latency (1 hour)',
           metrics: [modelLatencyMinMetric1H],
+          period: Duration.hours(1),
           width: 8,
         }),
         new cw.SingleValueWidget({
           title: 'Max Latency (1 hour)',
           metrics: [modelLatencyMaxMetric1H],
+          period: Duration.hours(1),
           width: 8,
         })
       )
@@ -267,6 +270,7 @@ export class CdkMonitoringStack extends cdk.Stack {
             new cw.SingleValueWidget({
               title: 'Input Token Count (1 hour)',
               metrics: [inputTokenCount1H],
+              period: Duration.hours(1),
               width: 12,
             }),
           ),
@@ -274,6 +278,7 @@ export class CdkMonitoringStack extends cdk.Stack {
             new cw.SingleValueWidget({
               title: 'Output Token Count (1 hour)',
               metrics: [outputTokenCount1H],
+              period: Duration.hours(1),
               width: 12,
             }),
           ),
@@ -281,6 +286,7 @@ export class CdkMonitoringStack extends cdk.Stack {
             new cw.SingleValueWidget({
               title: 'Output Image Count (1 hour)',
               metrics: [outputImageCount1H],
+              period: Duration.hours(1),
               width: 12,
             }),
           )          
@@ -290,7 +296,7 @@ export class CdkMonitoringStack extends cdk.Stack {
         
     bddashboard.dashboard.addWidgets(
       new cw.SingleValueWidget({
-        title: 'Server Status (30 days)',
+        title: 'Server Status (1 hour)',
         metrics: [invocations1H, invocationThrottles1H, invocationsServerErrors1H, invocationsClientError1H],
         width: 24,
       }),
