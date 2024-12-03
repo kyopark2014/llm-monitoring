@@ -21,7 +21,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       namespace: 'AWS/Bedrock',
       metricName: 'InvocationServerErrors',
       statistic: cw.Stats.SUM,
-      period: Duration.days(30),
+      // period: Duration.days(30),
     });    
     const invocationThrottles = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -36,7 +36,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   ModelId: modelId,
       // },
       statistic: cw.Stats.AVERAGE,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });    
     const invocations = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -45,7 +45,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   ModelId: modelId,
       // },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });    
 
     // Latency
@@ -56,7 +56,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   ModelId: modelId,
       // },
       statistic: cw.Stats.AVERAGE,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });
     const modelLatencyMinMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -65,7 +65,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   ModelId: modelId,
       // },
       statistic: cw.Stats.MINIMUM,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });
     const modelLatencyMaxMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -74,7 +74,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   ModelId: modelId,
       // },
       statistic: cw.Stats.MAXIMUM,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });
     
     // Token Count
@@ -85,7 +85,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   ModelId: modelId,
       // },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });
     const outputTokenCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -94,7 +94,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   ModelId: modelId,
       // },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30),
+      // period: Duration.days(30),
     });
     const outputImageCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -103,7 +103,7 @@ export class CdkMonitoringStack extends cdk.Stack {
       //   ModelId: modelId,
       // },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30),
+      // period: Duration.days(30),
     });
         
     // Dashboard
@@ -141,7 +141,7 @@ export class CdkMonitoringStack extends cdk.Stack {
             title: 'Input and Output Token Counts',
             left: [inputTokenCount],
             right: [outputTokenCount],
-            period: Duration.days(30),
+            // period: Duration.days(30),
             width: 12,
             height: 9,
           }),
