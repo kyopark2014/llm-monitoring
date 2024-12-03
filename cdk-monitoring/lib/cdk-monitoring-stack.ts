@@ -156,7 +156,7 @@ export class CdkMonitoringStack extends cdk.Stack {
     );
 
     ///////////////// All (1H) ///////////////
-    const bddashboard1H = new BedrockCwDashboard(this, 'BedrockDashboardConstruct', {});
+    const bddashboard1H = new BedrockCwDashboard(this, 'BedrockDashboardConstruct1H', {});
 
     const invocationsServerErrors1H = new cw.Metric({
       namespace: 'AWS/Bedrock',
