@@ -155,154 +155,6 @@ export class CdkMonitoringStack extends cdk.Stack {
       }),
     );
 
-    ///////////////// All (1H) ///////////////
-    const bddashboard1H = new BedrockCwDashboard(this, 'BedrockDashboardConstruct1H', {});
-
-    const invocationsServerErrors1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InvocationServerErrors',
-      statistic: cw.Stats.SUM,
-      period: Duration.hours(1),
-    });    
-    const invocationThrottles1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InvocationThrottles',
-      statistic: cw.Stats.SUM,  
-      period: Duration.hours(1),  
-    });
-    const invocationsClientError1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'invocationsClientErrors',
-      statistic: cw.Stats.AVERAGE,
-      period: Duration.hours(1),
-    });    
-    const invocations1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'Invocations',
-      statistic: cw.Stats.SUM,
-      period: Duration.hours(1),
-    });    
-
-    // Latency
-    const modelLatencyAvgMetric1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InvocationLatency',
-      statistic: cw.Stats.AVERAGE,
-      period: Duration.hours(1),
-    });
-    const modelLatencyMinMetric1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InvocationLatency',
-      statistic: cw.Stats.MINIMUM,
-      period: Duration.hours(1),
-    });
-    const modelLatencyMaxMetric1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InvocationLatency',
-      statistic: cw.Stats.MAXIMUM,
-      period: Duration.hours(1),
-    });
-    
-    // Token Count
-    const inputTokenCount1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'InputTokenCount',
-      statistic: cw.Stats.SUM,
-      period: Duration.hours(1),
-    });
-    const outputTokenCount1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'OutputTokenCount',
-      statistic: cw.Stats.SUM,
-      period: Duration.hours(1),
-    });
-    const outputImageCount1H = new cw.Metric({
-      namespace: 'AWS/Bedrock',
-      metricName: 'OutputImageCount',
-      statistic: cw.Stats.SUM,
-      period: Duration.hours(1),
-    });
-        
-    // Dashboard
-    bddashboard1H.dashboard.addWidgets(
-      new cw.Row(        
-        new cw.TextWidget({
-          markdown: '# LLM Metrics (1H)',
-          width: 24,
-        })
-      )
-    )
-    bddashboard1H.dashboard.addWidgets(
-      new cw.Row(        
-        new cw.SingleValueWidget({
-          title: 'Average Latency (1 hour)',
-          metrics: [modelLatencyAvgMetric1H],
-          period: Duration.hours(1),
-          width: 8,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Min Latency (1 hour)',
-          metrics: [modelLatencyMinMetric1H],
-          period: Duration.hours(1),
-          width: 8,
-        }),
-        new cw.SingleValueWidget({
-          title: 'Max Latency (1 hour)',
-          metrics: [modelLatencyMaxMetric1H],
-          period: Duration.hours(1),
-          width: 8,
-        })
-      )
-    );
-    bddashboard1H.dashboard.addWidgets(
-      new cw.Row(                
-        new cw.Column(
-          new cw.GraphWidget({
-            title: 'Input and Output Token Counts',
-            left: [inputTokenCount1H],
-            right: [outputTokenCount1H],
-            period: Duration.hours(1),
-            width: 12,
-            height: 9,
-          }),
-        ),
-        new cw.Column(
-          new cw.Row(
-            new cw.SingleValueWidget({
-              title: 'Input Token Count (1 hour)',
-              metrics: [inputTokenCount1H],
-              period: Duration.hours(1),
-              width: 12,
-            }),
-          ),
-          new cw.Row(          
-            new cw.SingleValueWidget({
-              title: 'Output Token Count (1 hour)',
-              metrics: [outputTokenCount1H],
-              period: Duration.hours(1),
-              width: 12,
-            }),
-          ),
-          new cw.Row(          
-            new cw.SingleValueWidget({
-              title: 'Output Image Count (1 hour)',
-              metrics: [outputImageCount1H],
-              period: Duration.hours(1),
-              width: 12,
-            }),
-          )          
-        )
-      ),
-    );
-        
-    bddashboard1H.dashboard.addWidgets(
-      new cw.SingleValueWidget({
-        title: 'Server Status (1 hour)',
-        metrics: [invocations1H, invocationThrottles1H, invocationsServerErrors1H, invocationsClientError1H],
-        width: 24,
-      }),
-    );
-
     ///////////////// Sonnet 3.0 ////////////////
     let modelId = "anthropic.claude-3-sonnet-20240229-v1:0";
     let modelName = "Sonnet3-0";
@@ -359,7 +211,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30),
+      // period: Duration.days(30),
     });    
     const invocationThrottles = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -368,7 +220,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.SUM,  
-      period: Duration.days(30),  // Duration.hours(1),
+      // period: Duration.days(30),  // Duration.hours(1),
     });
     const invocationsClientError = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -377,7 +229,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.AVERAGE,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });    
     const invocations = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -386,7 +238,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });    
 
     // Latency
@@ -397,7 +249,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.AVERAGE,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });
     const modelLatencyMinMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -406,7 +258,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.MINIMUM,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });
     const modelLatencyMaxMetric = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -415,7 +267,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.MAXIMUM,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });
     
     // Token Count
@@ -426,7 +278,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30)
+      // period: Duration.days(30)
     });
     const outputTokenCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -435,7 +287,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30),
+      // period: Duration.days(30),
     });
     const outputImageCount = new cw.Metric({
       namespace: 'AWS/Bedrock',
@@ -444,7 +296,7 @@ export class modelDashboard extends cdk.Stack {
         ModelId: modelId,
       },
       statistic: cw.Stats.SUM,
-      period: Duration.days(30),
+      // period: Duration.days(30),
     });
         
     // Dashboard 
@@ -526,7 +378,7 @@ export class modelDashboard extends cdk.Stack {
       new cw.Row(
         new cw.GraphWidget({
           title: `Token Cost (USD)`,
-          period: Duration.days(30),
+          // period: Duration.days(30),
           left: [
             new cw.MathExpression({
               expression: `inputTokens / 1000 * ${inputTokenPrice}`,
