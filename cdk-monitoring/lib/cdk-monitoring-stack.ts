@@ -164,6 +164,11 @@ export class CdkMonitoringStack extends cdk.Stack {
 
     new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
 
+    modelId = "amazon.nova-pro-v1:0"
+    modelName = "Nova-Pro"
+    title = "# LLM Metrics (Nova Pro)"
+    new modelDashboard(scope, `deployment-of-${modelName}`, bddashboard, title, modelId, inputTokenPrice, outputTokenPrice)
+
     modelId = "aanthropic.claude-3-5-sonnet-20240620-v1:0"
     modelName = "Sonnet3-5-v1"
     title = "# LLM Metrics (Sonnet 3.5 v1)"
