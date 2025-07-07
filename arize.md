@@ -13,3 +13,5 @@ docker run -p 6006:6006 -p 4317:4317 -i -t arizephoenix/phoenix:latest
 이때의 실행화면입니다.
 
 ![image](https://github.com/user-attachments/assets/d78b6b9e-9716-46d4-87c7-87585adc9bbb)
+
+gRPC와 HTTP로 log trace를 지원합니다.
