@@ -91,6 +91,7 @@ tracer_provider = register(
 )
 ```
 
+필요시 [노트북 예제](https://colab.research.google.com/github/Arize-ai/phoenix/blob/main/tutorials/tracing/langchain_tracing_tutorial.ipynb)을 활용합니다.
 
 
 ## Reference
