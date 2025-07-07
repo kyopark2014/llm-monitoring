@@ -64,6 +64,35 @@ pip install arize-phoenix
 pip install arize-phoenix-otel
 ```
 
+아래와 같은 environment 설정이 필요합니다.
+
+```python
+import os
+
+os.environ["PHOENIX_API_KEY"] = "ADD YOUR PHOENIX API KEY"
+os.environ["PHOENIX_COLLECTOR_ENDPOINT"] = "ADD YOUR PHOENIX HOSTNAME"
+```
+
+아래와 같이 패키지 설치를 수행합니다.
+
+```text
+pip install openinference-instrumentation-langchain langchain_aws
+```
+
+아래와 같이 trace를 설정합니다.
+
+```python
+from phoenix.otel import register
+
+# configure the Phoenix tracer
+tracer_provider = register(
+  project_name="my-llm-app", # Default is 'default'
+  auto_instrument=True # Auto-instrument your app based on installed OI dependencies
+)
+```
+
+
+
 ## Reference
 
 [Github-Arize AI](https://github.com/Arize-ai/phoenix)
