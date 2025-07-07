@@ -26,27 +26,6 @@ pip install arize-phoenix
 
 
 
-## MCP 활용
-
-[Arize Phoenix MCP Server](https://github.com/Arize-ai/phoenix/tree/main/js/packages/phoenix-mcp)에 따라 아래와 같이 활용 가능합니다.
-
-```python
-{
-  "mcpServers": {
-    "phoenix": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@arizeai/phoenix-mcp@latest",
-        "--baseUrl",
-        "https://my-phoenix.com",
-        "--apiKey",
-        "your-api-key"
-      ]
-    }
-  }
-}
-```
 
 ### API Key
 
@@ -93,6 +72,27 @@ tracer_provider = register(
 
 필요시 [노트북 예제](https://colab.research.google.com/github/Arize-ai/phoenix/blob/main/tutorials/tracing/langchain_tracing_tutorial.ipynb)을 활용합니다.
 
+## MCP 활용
+
+[Arize Phoenix MCP Server](https://github.com/Arize-ai/phoenix/tree/main/js/packages/phoenix-mcp)에 따라 아래와 같이 활용 가능합니다.
+
+```python
+{
+  "mcpServers": {
+    "phoenix": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@arizeai/phoenix-mcp@latest",
+        "--baseUrl",
+        "https://my-phoenix.com",
+        "--apiKey",
+        "your-api-key"
+      ]
+    }
+  }
+}
+```
 
 ## Reference
 
