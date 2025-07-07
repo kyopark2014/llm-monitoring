@@ -24,6 +24,8 @@ gRPC와 HTTP로 log trace를 지원합니다.
 pip install arize-phoenix
 ```
 
+
+
 ## MCP 활용
 
 [Arize Phoenix MCP Server](https://github.com/Arize-ai/phoenix/tree/main/js/packages/phoenix-mcp)에 따라 아래와 같이 활용 가능합니다.
@@ -45,6 +47,10 @@ pip install arize-phoenix
   }
 }
 ```
+
+### API Key
+
+[API Keys](https://arize.com/docs/phoenix/settings/api-keys)와 같이 system과 user api로 구분됩니다.
 
 
 ## Reference
