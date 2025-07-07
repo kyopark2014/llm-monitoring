@@ -52,9 +52,17 @@ pip install arize-phoenix
 
 [API Keys](https://arize.com/docs/phoenix/settings/api-keys)와 같이 system과 user api로 구분됩니다.
 
-### Tracing Integrations
+## Tracing Integrations
 
 [Tracing Integrations](https://github.com/Arize-ai/phoenix?tab=readme-ov-file#tracing-integrations)와 같이 [Anthoropic](https://arize.com/docs/phoenix/integrations/llm-providers/anthropic), [LangChain](https://arize.com/docs/phoenix/integrations/frameworks/langchain), [MCP](https://arize.com/docs/phoenix/integrations/model-context-protocol)을 지원합니다.
+
+### LangChain
+
+[LangChain Tracing](https://arize.com/docs/phoenix/integrations/frameworks/langchain/langchain-tracing)와 같이 필요한 패키지는 아래와 같습니다.
+
+```text
+pip install arize-phoenix-otel
+```
 
 ## Reference
 
