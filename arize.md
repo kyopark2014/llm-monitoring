@@ -18,10 +18,10 @@ docker run -p 6006:6006 -p 4317:4317 -i -t arizephoenix/phoenix:latest
 
 gRPC와 HTTP로 log trace를 지원합니다.
 
-### 패키지로 설치
+### 패키지 설치
 
 ```text
-pip install arize-phoenix
+pip install arize-phoenix openinference-instrumentation-bedrock
 ```
 
 
