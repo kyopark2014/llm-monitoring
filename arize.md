@@ -1,10 +1,10 @@
-# Phenix Arize
+# Phoenix Arize
 
 ## 설치 및 실행
 
 ### Docker
 
-[Docker Phenix](https://arize.com/docs/phoenix/self-hosting/deployment-options/docker#docker)을 참조하여 아래와 같이 설치를 수행합니다.
+[Docker Phoenix](https://arize.com/docs/phoenix/self-hosting/deployment-options/docker#docker)을 참조하여 아래와 같이 설치를 수행합니다.
 
 ```text
 docker pull arizephoenix/phoenix
