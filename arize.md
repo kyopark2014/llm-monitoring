@@ -2,7 +2,7 @@
 
 ## 설치 및 실행
 
-### Docker
+### Docker 활용하기
 
 [Docker Phoenix](https://arize.com/docs/phoenix/self-hosting/deployment-options/docker#docker)을 참조하여 아래와 같이 설치를 수행합니다.
 
@@ -18,13 +18,34 @@ docker run -p 6006:6006 -p 4317:4317 -i -t arizephoenix/phoenix:latest
 
 gRPC와 HTTP로 log trace를 지원합니다.
 
-### 패키지 설치
+#### Client 설정하기
+
+아래와 같이 필요한 패키지를 설치합니다.
 
 ```text
 pip install arize-phoenix openinference-instrumentation-bedrock opentelemetry-exporter-otlp
 ```
 
+구현하려는 application에 에러 코드를 추가합니다.
 
+```python
+os.environ["PHOENIX_COLLECTOR_ENDPOINT"] = "http://localhost:6006"
+
+try:
+    from phoenix.otel import register
+
+    # configure the Phoenix tracer
+    tracer_provider = register(
+      project_name="my-llm-app", # Default is 'default'
+      endpoint="http://localhost:6006/v1/traces",
+      auto_instrument=True # Auto-instrument your app based on installed OI dependencies
+    )
+except ImportError:
+    # Phoenix OTEL is not installed, skip tracing configuration
+    pass
+```
+
+이후 "my-llm-app"라는 프로젝트가 생성되고, 이후로 별다른 설정없이 관련 로그를 확인할 수 있습니다.
 
 
 ### API Key
