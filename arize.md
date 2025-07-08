@@ -35,6 +35,115 @@ pip install arize-phoenix
 
 [Tracing Integrations](https://github.com/Arize-ai/phoenix?tab=readme-ov-file#tracing-integrations)와 같이 [Anthoropic](https://arize.com/docs/phoenix/integrations/llm-providers/anthropic), [LangChain](https://arize.com/docs/phoenix/integrations/frameworks/langchain), [MCP](https://arize.com/docs/phoenix/integrations/model-context-protocol)을 지원합니다.
 
+### Amazon Bedrock
+
+[Amazon Bedrock Agents Tracing](https://arize.com/docs/phoenix/integrations/llm-providers/amazon-bedrock/amazon-bedrock-agents-tracing)에 따라 Amazon Bedrock에 대한 Trace를 제공합니다. 코드 예제는 [amazon_bedrock_agents_tracing_and_evals.ipynb](https://colab.research.google.com/github/Arize-ai/phoenix/blob/main/tutorials/integrations/amazon_bedrock_agents_tracing_and_evals.ipynb)을 참조할 수 있습니다.
+
+실행에 필요한 environment의 설정 상태를 확인합니다.
+
+```text
+endpoint = os.environ["PHOENIX_COLLECTOR_ENDPOINT"]
+api_key = os.environ["PHOENIX_CLIENT_HEADERS"]
+```
+
+Agent의 동작 시험을 할 수 있습니다.
+
+```text
+pip install -q arize-phoenix
+```
+
+```python
+import json
+
+import phoenix as px
+from phoenix.evals import (
+    TOOL_CALLING_PROMPT_RAILS_MAP,
+    TOOL_CALLING_PROMPT_TEMPLATE,
+    BedrockModel,
+    llm_classify,
+)
+from phoenix.trace import SpanEvaluations
+from phoenix.trace.dsl import SpanQuery
+
+query = (
+    SpanQuery()
+    .where(
+        # Filter for the `LLM` span kind.
+        # The filter condition is a string of valid Python boolean expression.
+        "span_kind == 'LLM'",
+    )
+    .select(
+        question="input.value",
+        outputs="output.value",
+    )
+)
+trace_df = px.Client().query_spans(query, project_name=project_name)
+
+# Apply JSON parsing to each row of trace_df.input.value
+trace_df["question"] = trace_df["question"].apply(
+    lambda x: json.loads(x).get("messages", [{}])[0].get("content", "") if isinstance(x, str) else x
+)
+
+# Function to extract tool call names from the output
+def extract_tool_calls(output_value):
+    tool_calls = []
+    try:
+        o = json.loads(output_value)
+
+        # Check if the output has 'content' which is a list of message components
+        if "content" in o and isinstance(o["content"], list):
+            for item in o["content"]:
+                # Check if this item is a tool_use type
+                if isinstance(item, dict) and item.get("type") == "tool_use":
+                    # Extract the name of the tool being called
+                    tool_name = item.get("name")
+                    if tool_name:
+                        tool_calls.append(tool_name)
+    except (json.JSONDecodeError, TypeError, AttributeError):
+        pass
+
+    return tool_calls
+
+
+# Apply the function to each row of trace_df.output.value
+trace_df["tool_call"] = trace_df["outputs"].apply(
+    lambda x: extract_tool_calls(x) if isinstance(x, str) else []
+)
+
+# Display the tool calls found
+print("Tool calls found in traces:", trace_df["tool_call"].sum())
+
+# Keep only rows where tool_calls is not empty (has at least one tool call)
+trace_df = trace_df[trace_df["tool_call"].apply(lambda x: len(x) > 0)]
+
+trace_df.head()
+
+#trace_df["tool_definitions"] = (
+#    "phoenix-traces retrieves the latest trace information from Phoenix, phoenix-experiments retrieves the latest experiment information from Phoenix, phoenix-datasets retrieves the latest dataset information from Phoenix"
+#)
+
+rails = list(TOOL_CALLING_PROMPT_RAILS_MAP.values())
+
+eval_model = BedrockModel(session=session, model_id="anthropic.claude-3-5-haiku-20241022-v1:0")
+
+response_classifications = llm_classify(
+    data=trace_df,
+    template=TOOL_CALLING_PROMPT_TEMPLATE,
+    model=eval_model,
+    rails=rails,
+    provide_explanation=True,
+)
+response_classifications["score"] = response_classifications.apply(
+    lambda x: 1 if x["label"] == "correct" else 0, axis=1
+)
+
+px.Client().log_evaluations(
+    SpanEvaluations(eval_name="Tool Calling Eval", dataframe=response_classifications),
+)
+```
+
+
+
 ### LangChain
 
 [LangChain Tracing](https://arize.com/docs/phoenix/integrations/frameworks/langchain/langchain-tracing)와 같이 필요한 패키지는 아래와 같습니다.
