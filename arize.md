@@ -21,7 +21,7 @@ gRPC와 HTTP로 log trace를 지원합니다.
 ### 패키지 설치
 
 ```text
-pip install arize-phoenix openinference-instrumentation-bedrock
+pip install arize-phoenix openinference-instrumentation-bedrock opentelemetry-exporter-otlp
 ```
 
 
