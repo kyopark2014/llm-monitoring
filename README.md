@@ -7,13 +7,15 @@
 
 
 
-여기서는 AWS Bedrock에 있는 LLM 모델의 모니터링 방법을 설명합니다. 주요 내용은 [Deploying Amazon Bedrock Monitoring Dashboard Using AWS GenAI CDK Constructs](https://www.linkedin.com/pulse/deploying-amazon-bedrock-monitoring-dashboard-using-aws-jimin-kim-j2jpc/)을 참고하여 만들어졌습니다.
-
-![image](https://github.com/user-attachments/assets/7cf89841-c203-46e9-8e72-1a7b53c33aab)
+여기서는 AWS Bedrock에 있는 LLM 모델의 모니터링 방법을 설명합니다. 
 
 ## Agent를 이용한 Dashboard 구현
 
 ## CDK를 이용한 Dashboard 구현
+
+주요 내용은 [Deploying Amazon Bedrock Monitoring Dashboard Using AWS GenAI CDK Constructs](https://www.linkedin.com/pulse/deploying-amazon-bedrock-monitoring-dashboard-using-aws-jimin-kim-j2jpc/)을 참고하여 만들어졌습니다.
+
+![image](https://github.com/user-attachments/assets/7cf89841-c203-46e9-8e72-1a7b53c33aab)
 
 이후 lib의 llm-monitoring/cdk-monitoring/lib/cdk-monitoring-stack.ts을 visual studio code에서 열고 아래와 관련된 함수를 import합니다.
 
