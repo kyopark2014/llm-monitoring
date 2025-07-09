@@ -1,8 +1,6 @@
 # LLM Monitoring
 
-
 <p align="left">
-    <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fkyopark2014%2Fllm-monitoring&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com"/></a>
     <img alt="License" src="https://img.shields.io/badge/LICENSE-MIT-green">
 </p>
 
@@ -13,8 +11,9 @@
 
 ![image](https://github.com/user-attachments/assets/7cf89841-c203-46e9-8e72-1a7b53c33aab)
 
+## Agent를 이용한 Dashboard 구현
 
-## Dashboard 구현
+## CDK를 이용한 Dashboard 구현
 
 이후 lib의 llm-monitoring/cdk-monitoring/lib/cdk-monitoring-stack.ts을 visual studio code에서 열고 아래와 관련된 함수를 import합니다.
 
