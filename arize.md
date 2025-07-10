@@ -214,6 +214,14 @@ except ImportError:
     pass
 ```
 
+이후 아래와 같이 [Trace Decorator](https://arize.com/docs/phoenix/tracing/how-to-tracing/setup-tracing/instrument-python#id-1.-as-a-decorator-to-trace-entire-functions)를 이용해 Trace를 수행합니다.
+
+```python
+@tracer.chain
+def my_func(input: str) -> str:
+    return "output"
+```
+
 
 
 필요시 [노트북 예제](https://colab.research.google.com/github/Arize-ai/phoenix/blob/main/tutorials/tracing/langchain_tracing_tutorial.ipynb)을 활용합니다.
