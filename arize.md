@@ -193,14 +193,32 @@ pip install openinference-instrumentation-langchain langchain_aws
 ```python
 from phoenix.otel import register
 
-# configure the Phoenix tracer
-tracer_provider = register(
-  project_name="my-llm-app", # Default is 'default'
-  auto_instrument=True # Auto-instrument your app based on installed OI dependencies
-)
+os.environ["PHOENIX_COLLECTOR_ENDPOINT"] = "http://localhost:6006"
+tracer = None
+try:
+    from phoenix.otel import register  # pip install arize-phoenix
+
+    # configure the Phoenix tracer
+    tracer_provider = register(
+      project_name=projectName,
+      endpoint="http://localhost:6006/v1/traces",
+      auto_instrument=True
+    )
+    tracer = tracer_provider.get_tracer(__name__)
+
+    @tracer.chain
+    def arize_trace(input: str) -> str:
+        return str(input)
+    
+except ImportError:
+    pass
 ```
 
+
+
 필요시 [노트북 예제](https://colab.research.google.com/github/Arize-ai/phoenix/blob/main/tutorials/tracing/langchain_tracing_tutorial.ipynb)을 활용합니다.
+
+### 
 
 ## MCP 활용
 
