@@ -258,3 +258,5 @@ def get_current_time(format: str=f"%Y-%m-%d %H:%M:%S")->str:
 [Github-Arize AI](https://github.com/Arize-ai/phoenix)
 
 [Arize Phoenix MCP Server](https://github.com/Arize-ai/phoenix/tree/main/js/packages/phoenix-mcp)
+
+[Pheonix-LangGraph](https://arize.com/docs/phoenix/learn/agents/readme/langgraph)
