@@ -205,10 +205,6 @@ try:
       auto_instrument=True
     )
     tracer = tracer_provider.get_tracer(__name__)
-
-    @tracer.chain
-    def arize_trace(input: str) -> str:
-        return str(input)
     
 except ImportError:
     pass
@@ -218,8 +214,15 @@ except ImportError:
 
 ```python
 @tracer.chain
-def my_func(input: str) -> str:
-    return "output"
+def get_current_time(format: str=f"%Y-%m-%d %H:%M:%S")->str:
+    """Returns the current date and time in the specified format"""
+    # f"%Y-%m-%d %H:%M:%S"
+    
+    format = format.replace('\'','')
+    timestr = datetime.datetime.now(timezone('Asia/Seoul')).strftime(format)
+    logger.info(f"timestr: {timestr}")
+    
+    return timestr
 ```
 
 
